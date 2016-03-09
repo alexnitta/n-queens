@@ -104,12 +104,25 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var rows = this.rows();
+      var total = 0;
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        total += row[colIndex];
+      }
+      return total > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var firstRow = rows[0];
+      for (var i = 0; i < firstRow.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
