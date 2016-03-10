@@ -79,12 +79,27 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var rows = this.rows();
+      var currentRow = rows[rowIndex];
+      var total = _.reduce(currentRow, function(total, currentSquare) {
+        return total + currentSquare;
+      }, 0);
+      return total > 1 ? true : false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var hasConflict = false;
+      
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          hasConflict = true;
+          break;
+        }
+      }
+      return hasConflict;
+    
     },
 
 
@@ -94,12 +109,24 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var rows = this.rows();
+      var total = _.reduce(rows, function(total, currentRow) {
+        return total + currentRow[colIndex];
+      }, 0);
+      return total > 1 ? true : false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var hasConflict = false;
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          hasConflict = true;
+          break;
+        }
+      }
+      return hasConflict;
     },
 
 
@@ -109,12 +136,39 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var rows = this.rows();
+      var total = 0;
+      
+      // iterate through rows
+      for (var i = 0; i < rows.length; i++) {
+        // declar var for starting index
+        // if this is the first row, starting index is mDCIAFR arg
+        var startIndex = majorDiagonalColumnIndexAtFirstRow;
+        
+        // if this is not the first row, find what the corresponding starting index will be when moving up and left from mDCIAFR
+        if (i !== 0) {
+          startIndex -= i; 
+        }
+        
+          // check for conflicts in all rows starting from row 0 at starting index
+        
+      }
+
+      
+      return total > 1 ? true : false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var hasConflict = false;
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          hasConflict = true;
+          break;
+        }
+      }
+      return hasConflict;
     },
 
 
