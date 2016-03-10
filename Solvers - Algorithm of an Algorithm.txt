@@ -1,0 +1,17 @@
+Solvers - Algorithm of an Algorithm
+
+findNRooksSolution
+
+- inputs: n (size of chessboard and also number of pieces)
+- output: single solution, array of arrays with n rooks places so none of them can attach each other
+- tools: Board Viewer
+  - board.js: a class for boards, where we can modify board contents and test if there are conflicts
+  - libraries: jQuery, backbone
+- form a naive approach to the problem
+  - need to find a single solution
+  - create a permutation
+    - permutations with n pieces on a board of nxn size
+    
+  - test the permutation with methods on board.js, including row and column conflicts
+
+

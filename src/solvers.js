@@ -13,19 +13,49 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
-
-
-window.findNRooksSolution = function(n) {
+window.findNRooksSolution = function(n, rowIndex, colIndex) {
   var solution = undefined; //fixme
+  var board = new this.Board({'n': n});
+  rowIndex = rowIndex || 0;
+  colIndex = colIndex || 0;
+  // place a piece
+  for (var i = 0; i < n; i++) {
+    if (rowIndex >= n) {
+      rowIndex = (rowIndex + n) % n;
+    } 
+    if (colIndex >= n) {
+      colIndex = (colIndex + n) % n;
+    }
+    board.togglePiece(rowIndex, colIndex);
+    rowIndex++;
+    colIndex++;
+  }
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // START HERE try checking what the solutionStorage object contains in Chrome Debugger
+
+  if (!(board.hasAnyRowConflicts() || board.hasAnyColConflicts())) {
+    console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+    solution = board.rows();
+  }
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
-
+  var solutionCount = 0;
+  var solutionStorage = Object.create(null);
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      var solution = this.findNRooksSolution(n, i, j);
+      if (solution) {
+        var key = JSON.stringify(solution);
+        solutionStorage[key] = solution;
+      }
+    }
+  }
+  for (var key in solutionStorage) {
+    solutionCount++;
+  }
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
