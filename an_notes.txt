@@ -1,0 +1,47 @@
+Understanding the Helper Functions
+
+
+the structure looks like this:
+
+var myBoard = new Board({n:3}) // [
+  [0,0,0],
+  [0,0,0],
+  [0,0,0],
+]
+
+
+- every conflict function should track whether there is already a 1 in the currently 
+searched element, then return true if another element is also a 1
+
+- every conflict function has a two types: checking a specific case, then checking the whole board
+  the type that checks the whole board can make use of the specific one
+
+Row Conflicts
+when analyzing rows, if a row array has more than one value of 1, there is a conflict
+
+hasRowConflictAt returns true if the row specified contains more than one element of value 1
+
+hasAnyRowConflicts returns true if any row contains more than one element of value 1
+
+Col Conflicts
+when analyzing columns, look at all row arrays
+  if more than one element in the same index is a 1, there is a conflict
+
+hasColConflictAt returns true if the colIndex given has more than one occupied square
+
+hasAnyColConflicts returns true if any col has more than one occupied square
+
+
+Diagonal Conflicts
+When analyzing diagonals, if more than one element in the path contains a 1, there is a conflict
+
+Major Diagonals go from top-left to bottom-right
+
+hasMajorDiagonalConflictAt has a parameter for the index to start at in the first row
+  tracks if starting element was a 1
+  looks at element in the next row at starting index + 1
+
+hasAnyMajorDiagonalConflicts needs to use hasMajorDiagonalConflict at on every starting index
+  
+Minor Diagonals should follow the same logic, but look at element in next row with 
+starting index - 1
