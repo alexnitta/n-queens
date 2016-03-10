@@ -135,12 +135,13 @@
       var rows = this.rows();
       var total = 0;
       for (var i = 0; i < rows.length; i++) {
-        var startRowColIndex = this._getFirstRowColumnIndexForMajorDiagonalOn(i, majorDiagonalColumnIndexAtFirstRow);
-        for (var j = 0; j < rows.length; j++) {
-          if (this._isInBounds(j, startRowColIndex)) {
-            total += rows[j][startRowColIndex];
-            startRowColIndex ++;
+        if (!(majorDiagonalColumnIndexAtFirstRow >= rows.length)) {
+          if (majorDiagonalColumnIndexAtFirstRow < 0) {
+            majorDiagonalColumnIndexAtFirstRow++;
+            continue;
           }
+          total += rows[i][majorDiagonalColumnIndexAtFirstRow];
+          majorDiagonalColumnIndexAtFirstRow++;
         }
       }
       return total > 1;
@@ -150,7 +151,8 @@
     hasAnyMajorDiagonalConflicts: function() {
       var row = this.rows()[0];
       // initialize row
-      for (var i = 0; i < row.length; i++) {
+      var startIndex = -(row.length - 2);
+      for (var i = startIndex; i < row.length - 2; i++) {
       // iterate over row
         if (this.hasMajorDiagonalConflictAt(i)) {
           return true;
