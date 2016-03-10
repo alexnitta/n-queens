@@ -30,6 +30,9 @@ window.findNRooksSolution = function(n, rowIndex, colIndex) {
     rowIndex++;
     colIndex++;
   }
+
+  // START HERE try checking what the solutionStorage object contains in Chrome Debugger
+
   if (!(board.hasAnyRowConflicts() || board.hasAnyColConflicts())) {
     console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
     solution = board.rows();
@@ -40,14 +43,19 @@ window.findNRooksSolution = function(n, rowIndex, colIndex) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
-
-  // create counter
-  // iterate through each row
-      // iterate through each column 
-        // manipulate the position object we are passing to findNRooks
-    // if result is defined, increment counter
-
-
+  var solutionStorage = Object.create(null);
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      var solution = this.findNRooksSolution(n, i, j);
+      if (solution) {
+        var key = JSON.stringify(solution);
+        solutionStorage[key] = solution;
+      }
+    }
+  }
+  for (var key in solutionStorage) {
+    solutionCount++;
+  }
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
