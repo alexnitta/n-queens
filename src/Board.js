@@ -171,30 +171,29 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       var rows = this.rows();
       var total = 0;
+
       for (var i = 0; i < rows.length; i++) {
-        if (minorDiagonalColumnIndexAtFirstRow >= 0) { // change this to <=  ?
-          if (minorDiagonalColumnIndexAtFirstRow >= rows.length) {
+        if (minorDiagonalColumnIndexAtFirstRow >= 0) {
+          if (minorDiagonalColumnIndexAtFirstRow >= rows.length - 1) {
             minorDiagonalColumnIndexAtFirstRow--;
             continue;
           }
           total += rows[i][minorDiagonalColumnIndexAtFirstRow];
           minorDiagonalColumnIndexAtFirstRow--;
-        } 
+        }
       }
+      
       return total > 1;
+
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var row = this.rows()[0];
-      // initialize row
-      var end = row.length + 1;
-      for (var i = 1; i <= end; i++) {
-      // iterate over row
-        if (this.hasMajorDiagonalConflictAt(i)) {
+      for (var i = 0; i <= row.length; i++) {
+        if (hasMinorDiagonalConflictAt(i)) {
           return true;
         }
-        // using index, if this.hasMajorDiagonalConflictAt
       }
       return false;
     }
