@@ -174,7 +174,7 @@
 
       for (var i = 0; i < rows.length; i++) {
         if (minorDiagonalColumnIndexAtFirstRow >= 0) {
-          if (minorDiagonalColumnIndexAtFirstRow >= rows.length - 1) {
+          if (minorDiagonalColumnIndexAtFirstRow >= rows.length) {
             minorDiagonalColumnIndexAtFirstRow--;
             continue;
           }
@@ -191,7 +191,7 @@
     hasAnyMinorDiagonalConflicts: function() {
       var row = this.rows()[0];
       for (var i = 0; i <= row.length; i++) {
-        if (hasMinorDiagonalConflictAt(i)) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
           return true;
         }
       }
