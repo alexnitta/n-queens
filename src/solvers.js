@@ -14,49 +14,56 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 window.findNRooksSolution = function(n, rowIndex, colIndex) {
-  var solution = undefined; //fixme
-  var board = new this.Board({'n': n});
-  rowIndex = rowIndex || 0;
-  colIndex = colIndex || 0;
-  // place a piece
-  for (var i = 0; i < n; i++) {
-    if (rowIndex >= n) {
-      rowIndex = (rowIndex + n) % n;
-    } 
-    if (colIndex >= n) {
-      colIndex = (colIndex + n) % n;
+  var solution = undefined;
+  var board = new this.Board({n: n});
+  var found = false;
+  var findSolution = function(rows) {
+    // board = board || new this.Board({n: n});
+
+    if (rows === n) { // base case
+      solution = board.rows();
+      found = true;
     }
-    board.togglePiece(rowIndex, colIndex);
-    rowIndex++;
-    colIndex++;
-  }
 
-  // START HERE try checking what the solutionStorage object contains in Chrome Debugger
+    for (var i = 0; i < n; i++) {  // iterates over columns
+      if (found) {
+        break;
+      }
+      board.togglePiece(rows, i);
+      if (!board.hasAnyRooksConflicts()) {
+        findSolution(rows + 1, board);
+      }
+      board.togglePiece(rows, i);
+    }
+  };
+  findSolution(0);
 
-  if (!(board.hasAnyRowConflicts() || board.hasAnyColConflicts())) {
-    console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-    solution = board.rows();
-  }
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
-  var solutionStorage = Object.create(null);
-  for (var i = 0; i < n; i++) {
-    for (var j = 0; j < n; j++) {
-      var solution = this.findNRooksSolution(n, i, j);
-      if (solution) {
-        var key = JSON.stringify(solution);
-        solutionStorage[key] = solution;
-      }
+  var board = new this.Board({n: n});
+
+  var findSolution = function(rows) {
+    // board = board || new this.Board({n: n});
+
+    if (rows === n) { // base case
+      solutionCount++;
+      return;
     }
-  }
-  for (var key in solutionStorage) {
-    solutionCount++;
-  }
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+
+    for (var i = 0; i < n; i++) {  // iterates over columns
+      board.togglePiece(rows, i);
+      if (!board.hasAnyRooksConflicts()) {
+        findSolution(rows + 1, board);
+      }
+      board.togglePiece(rows, i);
+    }
+  };
+
+  findSolution(0);
   return solutionCount;
 };
 
