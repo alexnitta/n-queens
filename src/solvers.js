@@ -20,22 +20,23 @@ window.findNRooksSolution = function(n, rowIndex, colIndex) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
+  var board = new this.Board({n: n});
 
-  var findSolution = function(rows, board) {
-    board = board || new this.Board({n: n});
+  var findSolution = function(rows) {
+    // board = board || new this.Board({n: n});
 
-    if (rows === n) {
+    if (rows === n) { // base case
+      solutionCount++;
       return;
     }
 
-    for (var i = 0; i < n; i++) {  // iterates over all decisions
+    for (var i = 0; i < n; i++) {  // iterates over columns
       board.togglePiece(rows, i);
       if (!board.hasAnyRooksConflicts()) {
         findSolution(rows + 1, board);
       }
       board.togglePiece(rows, i);
     }
-    solutionCount++;
   };
 
   findSolution(0);
